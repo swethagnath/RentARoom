@@ -1,0 +1,29 @@
+<br>
+<br>
+<br>	
+<%present = []%>
+<%past = []%>
+<%future = []%>
+<%@booking.each do |date|%>		
+	<%if (date.end_date < Date.today)%>
+		<%past.push(date)%>
+	<%elsif ((date.start_date..date.end_date).to_a).include? Date.today%>
+		<%present.push(date)%>
+	<%else%>
+		<%future.push(date)%>
+	<%end%>
+<%end%>
+<h2>past dates</h2>
+<%past.each do |date|%>
+	<%= date.start_date%>--<%=date.end_date%>
+<%end%>
+<h2>present dates</h2>
+<%present.each do |date|%>
+	<%= date.start_date%>--<%=date.end_date%><br>
+<%end%>
+<h2>future dates</h2>
+<%future.each do |date|%>
+	<%= date.start_date%>--<%=date.end_date%>
+<%end%>
+
+

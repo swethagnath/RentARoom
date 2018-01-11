@@ -1,0 +1,102 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>host:</strong>
+  <%= @room.user.username %>-<%=  @room.user.email%>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @room.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @room.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @room.price %>
+</p>
+
+<p>
+  <strong>Rules:</strong>
+  <%= @room.rules %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @room.address %>
+</p>
+<p>
+  <!-- <strong>Image:</strong> -->
+  <%= image_tag(@room.image.url) %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @room.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @room.longitude %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @room.city.name %>
+</p>
+<p>
+  <strong>Amenities:</strong>
+  <ol>
+    <% @room.amenities.each do |amenity| %>
+      <li><%=amenity.name%> - <%=amenity.description%></li>
+    <%end%>
+  </ol>
+</p>
+
+
+<!-- <iframe
+  width="450"
+  height="250"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/search?key=AIzaSyDg2DhyApsNVOyZN_x1ZESXqtK4Gegrfe0=<%#=@room.latitude%><%#=@room.latitude%>," allowfullscreen>
+</iframe> -->
+
+<%if (user_signed_in?)%>
+  <h1>BOOKING</h1>
+  <%= form_for Booking.new do |f|%>
+    <%=flash[:error]%>
+    <label for="booking_start_date">startDate</label>
+    <%= f.date_select :start_date%>
+    <label>endDate</label>
+    <%= f.date_select :end_date%><br>
+    <%=f.hidden_field :room_id,value:@room.id%><br>
+    <%= f.submit %>
+  <%end%>
+<%end%>
+  
+
+
+<%if user_signed_in?%>
+    <%Booking.all.each do |booking|%>
+      <%if current_user.id == booking.room.user_id%>
+        <%if booking.room.name == @room.name%>
+          <%=form_for booking do |f|%>  
+            <label for="booking_is_confirmed"></label>
+            <h4><%=booking.user.username%><h4><%=f.check_box :is_confirmed%>
+            <%= f.submit "authorize"%>
+          <%end%>
+        <%end%>
+      <%end%>
+    <%end%>
+<%end%>
+<br>
+<br>
+<br>
+<br>
+<%if (user_signed_in?) && (can? :update,@room)%>
+  <%= link_to 'Edit', edit_room_path(@room)%> |
+  <%= link_to 'destroy',room_path(@room.id),method: :delete%>
+<%end%>
+<%= link_to 'Back', rooms_path %> 

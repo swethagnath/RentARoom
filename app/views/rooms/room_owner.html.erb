@@ -1,0 +1,21 @@
+  <%if current_user.rooms.empty?%>
+    <h1>please add a room to be a host</h1>
+  <%else%>
+  <table>
+    <thead>
+      <th>name</th>
+      <th>price</th>
+      <th>image</th>
+      <th></th>
+    </thead>
+    <%@rooms.each do |room| %>
+      <tbody>    
+        <td><%= room.name%></td>
+        <td><%=room.price%></td>
+        <td><%=image_tag(room.image.url,size:"220x100")%></td>
+        <td><%= link_to "show",room_path(room.id)%></td>
+      </tbody>
+    <%end%>
+  </table>
+  <%end%>
+

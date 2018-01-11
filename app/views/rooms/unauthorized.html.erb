@@ -1,0 +1,38 @@
+<%if @rooms.empty?%>
+  <h2>there are no rooms to be  authorized</h2>
+<%else%>
+  <%@rooms.each do |room| %>
+          <table>
+           <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>Image</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th colspan="1"></th>
+              </tr>
+             </thead>
+             <tbody>
+                <tr>
+                  <td><%= room.name %></td>
+                  <td><%= room.price %></td>
+                  <td></td> 
+                  <td><%= image_tag(room.image.url) if room.image %></td>
+                  <td></td>
+                  <td>
+                      <%= form_for room do |f|%>
+                          <%= f.check_box :is_authorized%>authorize<br>
+                          <%= f.submit "authorize"%>
+                      <%end%>   
+                  </td>
+                  <td></td>
+                  <td><%= link_to 'Show', room %></td>
+                </tr>
+            </tbody>
+          </table>       
+  <%end%>
+<%end%>
+ 

@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+<h2>Rooms</h2>
+<br>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th></th>
+      <th>Image</th>
+      <th></th>
+      <th></th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+  <tbody>
+  
+      <%@rooms.each do |room| %>
+        <%if room.is_authorized%>
+            <tr>
+              <td><%= room.name %></td>
+              <td><%= room.price %></td>
+              <td></td>
+              <td><%= image_tag(room.image.url) if room.image %></td>
+              <td></td>
+              <td></td>
+              <td><%= link_to 'Show', room %></td>
+            </tr>
+        <%end%>
+      <%end%> 
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+<%= will_paginate @products %>
+<br>
+<br>
+<br>
+<%if (user_signed_in?) && (can? :create,Room.new)%>
+  <%= link_to ' add room', new_room_path %>
+<%end%>
+
+<%if (user_signed_in?) && (can? :manage,Room)%>
+  <%=link_to "unauthorized rooms",unauthorized_rooms_path%>
+<%end%>
+
