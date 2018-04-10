@@ -5,12 +5,15 @@ Rails.application.routes.draw do
   resources :cities
   resources :amenity_rooms
   resources :bookings
+  resources :reviews
   resources :rooms do
+    resources :special_prices
   	collection do
     	get 'unauthorized'
       get 'room_owner'
- 	end
+  	end
   end
+  #resources :special_prices
   root "rooms#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

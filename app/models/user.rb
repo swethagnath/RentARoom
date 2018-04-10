@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :username
   validates_length_of :mobile_number,is:10
   belongs_to :role
+  has_many :reviews
   has_many :rooms
   has_many :bookings
   devise :database_authenticatable, :authentication_keys => [:username]
@@ -20,7 +21,7 @@ class User < ApplicationRecord
     	self.role_id = Role.second.id   
   end
   def role?(role)
-    self.role.name == role
+    self.role.name == role 
   end
 end
 

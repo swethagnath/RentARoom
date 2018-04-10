@@ -2,7 +2,6 @@
   <% if amenity.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(amenity.errors.count, "error") %> prohibited this amenity from being saved:</h2>
-
       <ul>
       <% amenity.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -10,18 +9,18 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :amenity_name %>
   </div>
-
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :amenity_description %>
   </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>
+  <script>
+    
+  </script>
 <% end %>

@@ -12,6 +12,7 @@
       <th></th>
       <th></th>
       <th colspan="1"></th>
+      <th>city</th>
     </tr>
   </thead>
   <tbody>
@@ -26,6 +27,7 @@
               <td></td>
               <td></td>
               <td><%= link_to 'Show', room %></td>
+              <td><%=link_to room.city.name,city_path(room.city_id)%></td>
             </tr>
         <%end%>
       <%end%> 
@@ -34,7 +36,7 @@
 <br>
 <br>
 <br>
-<%= will_paginate @products %>
+<%= will_paginate @rooms %>
 <br>
 <br>
 <br>
@@ -45,4 +47,32 @@
 <%if (user_signed_in?) && (can? :manage,Room)%>
   <%=link_to "unauthorized rooms",unauthorized_rooms_path%>
 <%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -6,7 +6,7 @@ class Ability
         elsif user.role?("admin")
             can :manage,[Room,Amenity,Role,City]
         elsif user.role?("host")
-            can :read,[Room,Amenity,City]
+            can :read,[Room,Amenity,City,Review]
             can :create,[Room]
             can [:destroy,:update],Room do |room|
                 room.user_id == user.id

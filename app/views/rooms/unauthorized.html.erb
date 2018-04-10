@@ -1,4 +1,4 @@
-<%if @rooms.empty?%>
+<%if @rooms.empty?%> 
   <h2>there are no rooms to be  authorized</h2>
 <%else%>
   <%@rooms.each do |room| %>
@@ -24,7 +24,7 @@
                   <td></td>
                   <td>
                       <%= form_for room do |f|%>
-                          <%= f.check_box :is_authorized%>authorize<br>
+                          <%= f.hidden_field :is_authorized,value:true%>authorize<br>
                           <%= f.submit "authorize"%>
                       <%end%>   
                   </td>

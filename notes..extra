@@ -1,0 +1,108 @@
+ 1)y = Room.where(is_authorized:true).count;
+ 2)y = Room.where(["price > ?",1500]);
+ 3)y = Room.where(user_id:1).count;
+ 4) y = Room.where(is_authorized:false).count
+ 5) y = [] 
+    Room.all.each do |room|
+     if room.amenities.count >= 3
+        y.push(room.name)
+     end
+    end
+ 6) y =  Booking.where(["start_date > ? and end_date < ?",Date.today.beginning_of_month-5.months,Date.today])
+ 7) c = City.find_by(name:"jayanagar")
+    c.rooms.count
+ 8) hash = {}
+  	Booking.where(is_confirmed:true).each do |booking|
+	   hash[booking.user.email] = booking.user.bookings.count
+  	end
+ 9)hash = {}
+ 	Room.where(is_authorized:true).each do |room|
+     	y = ''
+     	y += room.id.to_s
+     	y += ' '
+   		y += room.name
+ 		hash[y] = room.bookings
+   	end
+ 10)hash = {}
+ 	Room.where(is_authorized:true).each do |room|
+	  hash[room.name] = {}
+	  hash[room.name]["latitude"] = room.latitude
+	  hash[room.name]["longitude"] = room.longitude 
+    end
+ 11)
+ hash = {}
+ City.all.each do |city|
+      if city.name == nil
+      else
+        hash[city.name] = []
+        i = 0
+       city.rooms.each do |room|
+          hash[city.name][i] = {}
+          hash[city.name][i][room.name] = {}
+          hash[city.name][i][room.name]["latitude"] = room.latitude
+          hash[city.name][i][room.name]["longitude"] = room.longitude
+       i += 1
+       end
+      end
+    end   
+12) array = []
+  Room.all.each do |room|
+    array.push([room.name])
+    rating = 0;
+    room.reviews.each do |review|
+      rating = (review.food_rating+review.cleanliness_rating+review.facility_rating+review.locality_rating+review.safety_rating)/5
+    end
+    if room.reviews.count == 0 
+      array.push([rating])
+    else
+    avg_rating = rating/room.reviews.count;
+      array.push([avg_rating]);
+    end   
+  end
+  array
+13)c = City.find_by(name:"jayanagar")
+    avg = 0
+   c.rooms.each do |room|
+      avg += room.price
+   end
+   y = avg/c.rooms.count
+
+14) c = Room.find_by(name:"The Oberoi")
+    y = 0
+    c.bookings.each do |booking|
+      y += (booking.start_date..booking.end_date).count
+    end
+    y
+
+15)array = [];
+  i = 0
+  Room.all.each do |room|
+    array[i] = {} 
+    array[i][room.name] = {}
+    array[i][room.name]["total booking"] = room.bookings.count
+    total = 0;
+    room.bookings.each do |booking|
+      if(booking.end_date < Date.today)
+        total += 1
+       array[i][room.name]["total days occupied"] = total
+      end
+      array[i][room.name]["ocupancy density"] = {}
+      weekday = 0
+      weekend = 0
+      y = (booking.start_date..booking.end_date).to_a
+      y.each do |date|
+        if date.wday == 0 || date.wday == 6
+          weekday += 1
+        else
+          weekend += 1
+        end
+      end
+      array[i][room.name]["ocupancy density"]["weekday"] =  weekday
+      array[i][room.name]["ocupancy density"]["weekend"] =  weekend
+    end
+    i += 1
+  end
+  array
+    
+
+

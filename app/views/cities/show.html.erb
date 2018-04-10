@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>city name:</strong>
   <%= @city.name %>
+  <ol>
+	  <%@city.rooms.each do |room|%>
+	  	<li><%=room.name%></li>
+	  <%end%>
+  </ol>
 </p>
 <%if (user_signed_in?) && (can? :update,@city)%>
 	<%= link_to 'Edit', edit_city_path(@city)%>|

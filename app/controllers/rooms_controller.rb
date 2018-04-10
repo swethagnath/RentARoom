@@ -1,4 +1,4 @@
-class RoomsController < ApplicationController
+class RoomsController < ApplicationController 
   before_action :set_room, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except:[:show,:index]
   load_and_authorize_resource
@@ -42,16 +42,11 @@ class RoomsController < ApplicationController
   # PATCH/PUT /rooms/1
   # PATCH/PUT /rooms/1.json
   def update
-    respond_to do |format|
+    respond_to do |format| 
       if @room.update(room_params)
-        if @room.is_authorized
-          NotificationMailer.order_confirmation(@room).deliver!
-        end
         format.html { redirect_to rooms_path, notice: 'Room was successfully updated.' }
-        format.json { render :show, status: :ok, location: @room }
       else
         format.html { render :edit }
-        format.json { render json: @room.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -79,6 +74,6 @@ class RoomsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def room_params
-      params.require(:room).permit(:name, :description, :price, :rules, :address, :image,:city_id,:is_authorized,amenity_ids:[])
+      params.require(:room).permit(:name,:description, :price, :rules, :address, :image,:city_id,:is_authorized,amenity_ids:[])
     end
 end

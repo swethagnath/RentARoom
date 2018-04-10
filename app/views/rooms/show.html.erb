@@ -1,13 +1,24 @@
 <p id="notice"><%= notice %></p>
 <p>
   <strong>host:</strong>
-  <%= @room.user.username %>-<%=  @room.user.email%>
-</p>
-<p>
-  <strong>Name:</strong>
-  <%= @room.name %>
+  <%= @room.user.username %>-<%= @room.user.id %>-<%=  @room.user.email%>
+  <p>other rooms  of this host are:</p>
+  <ol>
+        <%@room.user.rooms.where.not(id:@room.id).each do |room|%>
+          <li><%=link_to room.name,room_path(room.id)%></li>
+        <%end%>
+  </ol>
+    <%# @room.user.rooms.each do |room| %>
+      <%#if room.id == @room.id%>
+      <%#else%>
+      <li><%#=link_to room.name,room_path(room.id)%></li>
+      <%#end%>
+    <%#end%>
+  </ol>
 </p>
 
+
+<h3>Name:<%=@room.name%></h3>
 <p>
   <strong>Description:</strong>
   <%= @room.description %>
@@ -32,16 +43,15 @@
   <%= image_tag(@room.image.url) %>
 </p>
 
-<p>
+<!-- <p>
   <strong>Latitude:</strong>
-  <%= @room.latitude %>
+  <%#= @room.latitude %>
 </p>
 
 <p>
   <strong>Longitude:</strong>
-  <%= @room.longitude %>
-</p>
-
+  <%#= @room.longitude %>
+</p> -->
 <p>
   <strong>City:</strong>
   <%= @room.city.name %>
@@ -54,15 +64,6 @@
     <%end%>
   </ol>
 </p>
-
-
-<!-- <iframe
-  width="450"
-  height="250"
-  frameborder="0" style="border:0"
-  src="https://www.google.com/maps/embed/v1/search?key=AIzaSyDg2DhyApsNVOyZN_x1ZESXqtK4Gegrfe0=<%#=@room.latitude%><%#=@room.latitude%>," allowfullscreen>
-</iframe> -->
-
 <%if (user_signed_in?)%>
   <h1>BOOKING</h1>
   <%= form_for Booking.new do |f|%>
@@ -75,16 +76,13 @@
     <%= f.submit %>
   <%end%>
 <%end%>
-  
-
-
 <%if user_signed_in?%>
     <%Booking.all.each do |booking|%>
-      <%if current_user.id == booking.room.user_id%>
+        <%if current_user.id == booking.room.user_id%>
         <%if booking.room.name == @room.name%>
           <%=form_for booking do |f|%>  
-            <label for="booking_is_confirmed"></label>
-            <h4><%=booking.user.username%><h4><%=f.check_box :is_confirmed%>
+            <label for="booking_is_confirmed"></label> 
+            <h4><%=booking.user.username%><h4><%=f.check_box :is_confirmed%> 
             <%= f.submit "authorize"%>
           <%end%>
         <%end%>
@@ -95,8 +93,68 @@
 <br>
 <br>
 <br>
+<%if user_signed_in?%>
+  <%if current_user.id == @room.user_id%>
+    <h1>special booking price</h1>
+    <%= link_to "special booking price",new_room_special_price_path(@room.id)%>
+  <%end%>
+<%end%>
+<br>
+<br>
+<br>
+<br>
 <%if (user_signed_in?) && (can? :update,@room)%>
   <%= link_to 'Edit', edit_room_path(@room)%> |
   <%= link_to 'destroy',room_path(@room.id),method: :delete%>
 <%end%>
 <%= link_to 'Back', rooms_path %> 
+<ol>
+<%@room.reviews.each do |review|%>
+ <li>
+   <%= review.review%>--
+   average rating  <%= (review.food_rating+review.cleanliness_rating+review.facility_rating+review.locality_rating+review.safety_rating)/5%> 
+ </li>
+<%end%>
+</ol>
+<%if (user_signed_in?)%>
+  <%current_user.bookings.each do |booking|%>
+    <%if (booking.room_id == @room.id) && (booking.end_date < Date.today)%>
+      <%= form_for Review.new do |f|%>
+        <%= f.hidden_field :room_id,value:@room.id%>
+        <label>review</label>
+        <%= f.text_area :review%><br>
+        <label>food rating</label>
+        <%= f.radio_button :food_rating,1%>*
+        <%= f.radio_button :food_rating,2%>**
+        <%= f.radio_button :food_rating,3%>***
+        <%= f.radio_button :food_rating,4%>****
+        <%= f.radio_button :food_rating,5%>*****<br>
+         <label>cleanliness rating</label>
+        <%= f.radio_button :cleanliness_rating,1%>*
+        <%= f.radio_button :cleanliness_rating,2%>**
+        <%= f.radio_button :cleanliness_rating,3%>***
+        <%= f.radio_button :cleanliness_rating,4%>****
+        <%= f.radio_button :cleanliness_rating,5%>*****<br>
+        <label>facility rating</label>
+        <%= f.radio_button :facility_rating,1%>*
+        <%= f.radio_button :facility_rating,2%>**
+        <%= f.radio_button :facility_rating,3%>***
+        <%= f.radio_button :facility_rating,4%>****
+        <%= f.radio_button :facility_rating,5%>*****<br>
+        <label>locality rating</label>
+        <%= f.radio_button :locality_rating,1%>*
+        <%= f.radio_button :locality_rating,2%>**
+        <%= f.radio_button :locality_rating,3%>***
+        <%= f.radio_button :locality_rating,4%>****
+        <%= f.radio_button :locality_rating,5%>*****<br>
+        <label>safety rating</label>
+        <%= f.radio_button :safety_rating,1%>*
+        <%= f.radio_button :safety_rating,2%>**
+        <%= f.radio_button :safety_rating,3%>***
+        <%= f.radio_button :safety_rating,4%>****
+        <%= f.radio_button :safety_rating,5%>*****<br>
+        <%=f.submit%>
+      <%end%>
+    <%end%>
+  <%end%>
+<%end%>

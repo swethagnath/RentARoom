@@ -1,0 +1,10 @@
+<h1>special booking price</h1>
+<%= form_for [@room,@special_price] do |f|%>
+  	<%=f.hidden_field :room_id,value:@room.id%>
+  	<label for="special_price_start_date">start date</label>
+  	<%=f.date_field :start_date %><br>
+  	<label for="special_price_end_date">end date</label>
+  	<%= f.date_field :end_date %><br>
+  	<%= f.number_field :price ,value:@room.price%><br>
+  	<%= f.submit "add price"%>
+<%end%>

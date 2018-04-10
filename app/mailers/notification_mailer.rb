@@ -27,6 +27,7 @@ class NotificationMailer < ApplicationMailer
   def confirmation_of_user_booking_by_host(book)
      @book = book
      mail to: "#{@book.room.user.email}"
+    
   end
   def confirmed_by_host(book)
      @book = book

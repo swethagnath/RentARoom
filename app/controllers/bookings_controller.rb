@@ -1,4 +1,4 @@
-class BookingsController < ApplicationController
+class BookingsController < ApplicationController 
 	def index
 		@booking = current_user.bookings
 	end
@@ -6,8 +6,6 @@ class BookingsController < ApplicationController
 		@booking = Booking.new(booking_params)
 		@booking.user_id = current_user.id
 		if @booking.save
-			NotificationMailer.bookinged_by_user(@booking).deliver!
-			NotificationMailer.confirmation_of_user_booking_by_host(@booking).deliver!
 			redirect_to room_path(@booking.room_id),notice:"successfully created"
 		else
 			redirect_to room_path(@booking.room_id),:flash => { :error => @booking.errors.full_messages.join(', ') }
@@ -16,9 +14,6 @@ class BookingsController < ApplicationController
 	def update
 		@booking = Booking.find(params[:id])
 		if @booking.update_attributes(booking_params)
-			if @booking.is_confirmed
-				NotificationMailer.confirmed_by_host(@booking).deliver!
-			end
 			redirect_to  rooms_path
 		else
 			redirect_to room_path(@booking.room_id),:flash => { :error => @booking.errors.full_messages.join(', ') }

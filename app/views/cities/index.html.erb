@@ -11,7 +11,7 @@
   </thead>
 
   <tbody>
-    <% @cities.each do |city| %>
+    <%@cities.each do |city| %>
       <tr>
         <td><%= city.name %></td>
         <td><%= link_to 'Show', city %></td>
@@ -21,7 +21,6 @@
     <% end %>
   </tbody>
 </table>
-
 <br>
 <%if (user_signed_in?) && (can? :create,City.new)%>
   <%= link_to 'New City', new_city_path %>
